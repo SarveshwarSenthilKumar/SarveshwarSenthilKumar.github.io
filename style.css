@@ -26,6 +26,72 @@
       top: 8px;
       left: 16px;
     }
+
+    .button {
+      background-color: #ff825d;
+      border: none;
+      color: white;
+      padding: 20px;
+      -webkit-text-stroke: 0.5px white;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 1.5vw;
+      margin: 4px 2px;
+      border-radius: 12px;
+    }
+
+    .button1{
+      background-color: 	#a1c694;
+      color: white;
+    }
+    .button1:hover{
+      background-color: #8bb57c ;
+      color: white;
+    }
+    
+    .button2{
+      background-color: #82bbde;
+      color: white;
+    }
+    .button2:hover{
+      background-color: 	#73a7c8;
+      color: white;
+    }
+
+    .button3{
+      background-color: #cabfee;
+      color: white;
+    }
+    .button3:hover{
+      background-color: #b8a9e6 ;
+      color: white;
+    }
+
+    .button4{
+      background-color: #f7c79d;
+      color: white;
+    }
+    .button4:hover{
+      background-color: #e8b181 ;
+      color: white;
+    }
+    
+    
+
+    :root {
+      /* 
+        One-stop magic hue shift
+        We're using oklch(), so these might not be the hue values you are familiar with 
+      See: https://oklch.com/
+      */
+      --hue: 310; /* change me (0-360) */
+      --hue-adjust: 135; /* and me */
+    
+      --hue-2: calc(var(--hue) + var(--hue-adjust));
+    
+      --page-background: oklch(10% 0.0666 var(--hue));
+    }
     
     .top-right {
       position: absolute;
