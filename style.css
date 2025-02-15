@@ -77,6 +77,14 @@
       color: white;
     }
     
+    .button5{
+      background-color: #FFB6BC;
+      color: white;
+    }
+    .button5:hover{
+      background-color: #FAA0A0;
+      color: white;
+    }
     
 
     :root {
