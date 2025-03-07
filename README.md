@@ -16,6 +16,8 @@ Welcome to my personal perfolio website which showcases my experiences and journ
   <li>Technical & Non-Technical Achievements – Highlighting expertise beyond programming 🔬</li>
   <li>Interactive Media – Slideshow, videos, and embedded content 🎥 </li>
   <li>Contact & Social Links – Easily get in touch! 📬</li>
+  <li>Toolbar Navigation – A floating toolbar for quick access to key sections 🛠️</li>
+  <li>Table of Contents – Organized links for easy navigation within the page 📖</li>
 </ul>
 ---
 
