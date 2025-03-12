@@ -18,7 +18,8 @@
       position:fixed;
       top:0px;
       z-index: 9999;
-      width: 100%;
+      width: 100%; 
+      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
     
     /* Style the links inside the navigation bar */
@@ -47,6 +48,45 @@
       background-color: #00b4a3;
       color: white;
     }
+    
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+          visibility: visible;
+        }
+        100% {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+
+      /* Initially, it is visible */
+      .topnav.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* When fade-out is applied */
+      .topnav.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      /* Hide on small screens */
+      @media (max-width: 768px) {
+
+        .topnav.hidden {
+          opacity: 0;
+          visibility: hidden; /* Hide the topnav on small screens */
+        }
+
+        .topnav.visible {
+          opacity: 1;
+          visibility: visible; /* Make the topnav visible again */
+        }
+      }
+
+    
       </style>
         <div class="topnav">
               
@@ -64,6 +104,27 @@
           <a href="#techprojects"  style="text-decoration: none;">Technical Projects</a>
           
         </div>
+
+        <script>
+          let prevScrollpos = window.pageYOffset;
+          const navbar = document.querySelector('.topnav');
+        
+          window.onscroll = function () {
+            let currentScrollPos = window.pageYOffset;
+        
+            if (prevScrollpos > currentScrollPos) {
+              // Scrolling up - show the navbar
+              navbar.classList.remove('hidden');
+              navbar.classList.add('visible');
+            } else {
+              // Scrolling down - hide the navbar
+              navbar.classList.remove('visible');
+              navbar.classList.add('hidden');
+            }
+            prevScrollpos = currentScrollPos;
+          };
+        </script>
+
     <div class="container" id="start">
       <img src="https://i.ibb.co/9t7fqTh/Interview-CP24.jpg" alt="CP24 Interview" style="width:100%; margin-top: 4%;;">
       <name class="centered" style="font-family: Calibri;  font-size: 3.5vw; font-weight: bold; color: white;">Sarveshwar Senthil Kumar</name><br>
