@@ -194,6 +194,17 @@
       color: white;
     }
 
+    .button7 {
+      background-color: #9AD1D4;  
+      color: white;
+      transition: background-color 0.3s ease; 
+    }
+    
+    .button7:hover {
+      background-color: #7FB9BC;  
+      color: white;
+    }
+
     :root {
       /* 
         One-stop magic hue shift
