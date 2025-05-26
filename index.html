@@ -829,14 +829,64 @@
     <br>
 
     <div style="margin-top: 7%; margin-left: 5%; margin-right: 5%; font-family: Calibri; font-size: 1.8vw; font-weight: bold; color: white;">
-      <h1 style="margin-bottom: 2%;" id="resume">My Resume:</h1>
-      <div style="width: 100%; height: 100vh; margin-bottom: 10%;">
-        <iframe src="Profile.pdf" width="100%" height="100%" style="border: none;">
-          <p style="color: white; font-size: 1.5vw;">Your browser does not support PDFs. 
-          <a href="Profile.pdf" style="color: #FFD700;">Download the resume</a> instead.</p>
-        </iframe>
-      </div>
-    </div>
+  <h1 style="margin-bottom: 2%;" id="resume">My Resume:</h1>
+  
+  <!-- Resume Tabs -->
+  <div style="margin-bottom: 2%;">
+    <button onclick="openResume('total')" id="totalTab" class="resumeTab activeTab" style="padding: 10px 20px; font-size: 1.5vw; background-color: #00bb77; color: white; border: none; cursor: pointer; border-radius: 5px 0 0 5px;">Total Resume</button>
+    <button onclick="openResume('technical')" id="technicalTab" class="resumeTab" style="padding: 10px 20px; font-size: 1.5vw; background-color: #555; color: white; border: none; cursor: pointer; border-radius: 0 5px 5px 0;">Technical Resume</button>
+  </div>
+  
+  <!-- Resume Container -->
+  <div id="totalResume" class="resumeContent" style="width: 100%; height: 100vh; margin-bottom: 10%; display: block;">
+    <iframe src="Profile.pdf" width="100%" height="100%" style="border: none;">
+      <p style="color: white; font-size: 1.5vw;">Your browser does not support PDFs. 
+      <a href="Profile.pdf" style="color: #FFD700;">Download the resume</a> instead.</p>
+    </iframe>
+  </div>
+  
+  <div id="technicalResume" class="resumeContent" style="width: 100%; height: 100vh; margin-bottom: 10%; display: none;">
+    <iframe src="Resume.pdf" width="100%" height="100%" style="border: none;">
+      <p style="color: white; font-size: 1.5vw;">Your browser does not support PDFs. 
+      <a href="Resume.pdf" style="color: #FFD700;">Download the technical resume</a> instead.</p>
+    </iframe>
+  </div>
+  
+  <style>
+    .resumeTab {
+      transition: background-color 0.3s;
+    }
+    .resumeTab:hover {
+      background-color: #444 !important;
+    }
+    .activeTab {
+      background-color: #00bb77 !important;
+    }
+    .resumeContent {
+      display: none;
+    }
+  </style>
+  
+  <script>
+    function openResume(resumeType) {
+      // Hide all resume contents
+      var contents = document.getElementsByClassName("resumeContent");
+      for (var i = 0; i < contents.length; i++) {
+        contents[i].style.display = "none";
+      }
+      
+      // Remove active class from all tabs
+      var tabs = document.getElementsByClassName("resumeTab");
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].className = tabs[i].className.replace(" activeTab", "");
+      }
+      
+      // Show the selected resume and mark its tab as active
+      document.getElementById(resumeType + "Resume").style.display = "block";
+      document.getElementById(resumeType + "Tab").className += " activeTab";
+    }
+  </script>
+</div>
     <br>
 
     <div style="margin-bottom: 5%; margin-left: 5%; margin-right: 5%; font-family: Calibri; margin-top: 5%; font-size: 1.8vw; font-weight: bold; color: white; text-align: center;">
