@@ -32,13 +32,14 @@
             line-height: 1.6;
             height: 100%;
             width: 100%;
-            overflow-x: hidden;
+            overflow: hidden;
         }
         
         .container {
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            height: 100vh;
+            max-height: 100vh;
             padding: 1.5rem;
             margin: 0 auto;
             max-width: 1200px;
@@ -52,7 +53,6 @@
         :-ms-fullscreen .container {
             max-width: 95vw;
             padding: 2rem;
-            min-height: 100vh;
         }
         
         :fullscreen .profile-image,
@@ -60,7 +60,7 @@
         :-moz-full-screen .profile-image,
         :-ms-fullscreen .profile-image {
             width: 90%;
-            max-width: 300px;
+            max-width: 400px;
             margin-bottom: 1.5rem;
         }
         
@@ -153,15 +153,15 @@
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
             flex-grow: 1;
-            overflow: auto;
-            padding: 0.5rem 0;
+            overflow: hidden;
+            height: calc(100vh - 120px);
         }
         
         .profile-section {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            overflow: auto;
+            overflow: hidden;
             padding-right: 1rem;
         }
         
@@ -169,18 +169,21 @@
             display: flex;
             justify-content: center;
             margin-bottom: 1rem;
+            flex-grow: 1;
+            min-height: 0;
         }
         
         .profile-image {
-            width: 70%;
-            max-width: 250px;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 35vh;
             border-radius: 12px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             margin-bottom: 0.5rem;
             border: 4px solid var(--primary);
             transition: all 0.3s ease;
-            object-fit: cover;
-            aspect-ratio: 1/1;
+            object-fit: contain;
         }
         
         .profile-title {
@@ -224,7 +227,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            overflow: auto;
+            overflow: hidden;
         }
         
         .qr-grid {
@@ -341,14 +344,12 @@
             padding: 0.8rem 0;
             font-size: 0.8rem;
             color: var(--text-light);
-            margin-top: auto;
         }
         
         /* Responsive adjustments */
         @media (max-width: 992px) {
             .profile-image {
-                width: 60%;
-                max-width: 220px;
+                max-height: 30vh;
             }
             
             .qr-code-container {
@@ -373,28 +374,28 @@
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
-                height: auto;
-                min-height: 100vh;
+                height: 100vh;
             }
             
             .main-content {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
-                overflow: visible;
+                height: calc(100vh - 100px);
             }
             
             .profile-section {
                 padding-right: 0;
                 order: 1;
+                justify-content: flex-start;
             }
             
             .links-section {
                 order: 2;
+                justify-content: flex-start;
             }
             
             .profile-image {
-                width: 50%;
-                max-width: 200px;
+                max-height: 25vh;
+                max-width: 70%;
             }
             
             .qr-grid {
@@ -421,8 +422,8 @@
             }
             
             .profile-image {
-                width: 60%;
-                max-width: 180px;
+                max-height: 22vh;
+                max-width: 80%;
             }
             
             .qr-grid {
@@ -520,25 +521,6 @@
         
         .fullscreen-toggle i {
             font-size: 1.2rem;
-        }
-        
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 3px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
         }
     </style>
 </head>
@@ -666,6 +648,12 @@
             generateQRCode('qr-linkedin', 'https://www.linkedin.com/in/sarveshwarsenthilkumar/');
             generateQRCode('qr-resume', 'https://sarveshwarsenthilkumar.github.io#resume');
             generateQRCode('qr-portfolio', 'https://sarveshwarsenthilkumar.github.io');
+            
+            // Prevent scrolling
+            document.body.style.overflow = 'hidden';
+            window.addEventListener('scroll', function(e) {
+                window.scrollTo(0, 0);
+            });
             
             // Fullscreen functionality
             const fullscreenNotification = document.getElementById('fullscreenNotification');
