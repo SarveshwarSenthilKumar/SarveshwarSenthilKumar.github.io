@@ -30,29 +30,31 @@
             background-color: var(--dark);
             color: var(--light);
             line-height: 1.6;
-            overflow-x: hidden;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
         }
         
         .container {
             max-width: 1200px;
+            height: 100vh;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
         }
         
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
-            margin-bottom: 2rem;
+            padding: 0.5rem 0;
+            margin-bottom: 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
         }
@@ -60,21 +62,23 @@
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            gap: 2rem;
             flex-grow: 1;
+            height: calc(100vh - 120px);
         }
         
         .profile-section {
             display: flex;
             flex-direction: column;
+            justify-content: center;
         }
         
         .profile-image {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
+            width: 90%;
+            max-width: 300px;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
             border: 4px solid var(--primary);
             transition: transform 0.3s ease;
         }
@@ -84,108 +88,110 @@
         }
         
         .profile-title {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             color: var(--primary);
         }
         
         .profile-subtitle {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 500;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             color: var(--light);
         }
         
         .profile-description {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
             color: var(--light);
             opacity: 0.9;
+            line-height: 1.5;
         }
         
         .links-section {
             display: flex;
             flex-direction: column;
+            justify-content: center;
         }
         
         .qr-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-bottom: 3rem;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
         
         .qr-card {
             background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
         }
         
         .qr-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
         }
         
         .qr-code {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 1rem;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 0.8rem;
             background: white;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 8px;
+            border-radius: 6px;
         }
         
         .qr-title {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             color: var(--primary);
         }
         
         .qr-description {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-light);
         }
         
         .contact-info {
             background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1.2rem;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
         
         .contact-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             color: var(--primary);
         }
         
         .contact-item {
             display: flex;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
         
         .contact-icon {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             background-color: var(--primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
+            margin-right: 0.8rem;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
         
         .contact-text {
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .contact-link {
@@ -201,16 +207,15 @@
         
         footer {
             text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 0;
+            font-size: 0.8rem;
             color: var(--text-light);
-            font-size: 0.9rem;
         }
         
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
+                height: auto;
             }
             
             .qr-grid {
@@ -218,7 +223,12 @@
             }
             
             .profile-title {
-                font-size: 2rem;
+                font-size: 1.5rem;
+            }
+            
+            .container {
+                height: auto;
+                overflow: auto;
             }
         }
         
@@ -254,13 +264,11 @@
                 <p class="profile-description animated delay-2">
                     Passionate software engineer with expertise in full-stack development, AI integration, and technical leadership. 
                     As CTO of ReSourced, I've built educational platforms featured on national television. 
-                    Avid chess player (2100-rated AFM) and founder of Zugzwang Chess Club with 100+ global members.
                 </p>
                 
                 <p class="profile-description animated delay-2">
-                    My journey in technology began at age 10, and since then I've developed numerous projects 
-                    ranging from stock simulators with AI chatbots to autonomous vehicle controls and 
-                    award-winning hackathon solutions.
+                    Avid chess player (2100-rated AFM) and founder of Zugzwang Chess Club. My journey in technology began at age 10, 
+                    leading to numerous innovative projects and hackathon wins.
                 </p>
             </section>
             
@@ -269,25 +277,25 @@
                     <div class="qr-card animated delay-3">
                         <div id="qr-github" class="qr-code"></div>
                         <h3 class="qr-title">GitHub Profile</h3>
-                        <p class="qr-description">Explore my technical projects and contributions</p>
+                        <p class="qr-description">Explore my technical projects</p>
                     </div>
                     
                     <div class="qr-card animated delay-3">
                         <div id="qr-linkedin" class="qr-code"></div>
                         <h3 class="qr-title">LinkedIn</h3>
-                        <p class="qr-description">Connect professionally</p>
+                        <p class="qr-description">Professional network</p>
                     </div>
                     
                     <div class="qr-card animated delay-4">
-                        <div id="qr-replit" class="qr-code"></div>
-                        <h3 class="qr-title">Replit</h3>
-                        <p class="qr-description">Interactive coding projects</p>
+                        <div id="qr-resume" class="qr-code"></div>
+                        <h3 class="qr-title">My Resume</h3>
+                        <p class="qr-description">Download full CV</p>
                     </div>
                     
                     <div class="qr-card animated delay-4">
-                        <div id="qr-wordpress" class="qr-code"></div>
-                        <h3 class="qr-title">WordPress</h3>
-                        <p class="qr-description">Blogs and writings</p>
+                        <div id="qr-portfolio" class="qr-code"></div>
+                        <h3 class="qr-title">Portfolio</h3>
+                        <p class="qr-description">View my work</p>
                     </div>
                 </div>
                 
@@ -311,21 +319,12 @@
                             <a href="tel:437-450-4378" class="contact-link">+1 (437) 450-4378</a>
                         </div>
                     </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <div class="contact-text">
-                            <a href="https://sarveshwarsenthilkumar.github.io" class="contact-link">sarveshwarsenthilkumar.github.io</a>
-                        </div>
-                    </div>
                 </div>
             </section>
         </main>
         
         <footer class="animated delay-4">
-            © 2025 Sarveshwar Senthil Kumar. All rights reserved.
+            © 2025 Sarveshwar Senthil Kumar
         </footer>
     </div>
 
@@ -334,7 +333,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // GitHub QR
             QRCode.toCanvas(document.getElementById('qr-github'), 'https://github.com/SarveshwarSenthilKumar', {
-                width: 150,
+                width: 120,
                 margin: 1,
                 color: {
                     dark: '#000000',
@@ -344,7 +343,7 @@
             
             // LinkedIn QR
             QRCode.toCanvas(document.getElementById('qr-linkedin'), 'https://www.linkedin.com/in/sarveshwarsenthilkumar/', {
-                width: 150,
+                width: 120,
                 margin: 1,
                 color: {
                     dark: '#000000',
@@ -352,9 +351,9 @@
                 }
             });
             
-            // Replit QR
-            QRCode.toCanvas(document.getElementById('qr-replit'), 'https://replit.com/@sarvesh313', {
-                width: 150,
+            // Resume QR
+            QRCode.toCanvas(document.getElementById('qr-resume'), 'https://sarveshwarsenthilkumar.github.io/Profile.pdf', {
+                width: 120,
                 margin: 1,
                 color: {
                     dark: '#000000',
@@ -362,9 +361,9 @@
                 }
             });
             
-            // WordPress QR
-            QRCode.toCanvas(document.getElementById('qr-wordpress'), 'https://sarvesh313.wordpress.com', {
-                width: 150,
+            // Portfolio QR
+            QRCode.toCanvas(document.getElementById('qr-portfolio'), 'https://sarveshwarsenthilkumar.github.io', {
+                width: 120,
                 margin: 1,
                 color: {
                     dark: '#000000',
