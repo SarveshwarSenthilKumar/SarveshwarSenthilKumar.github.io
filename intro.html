@@ -265,6 +265,23 @@
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.3s; }
         .delay-4 { animation-delay: 0.4s; }
+
+        /* Fullscreen notification */
+        .fullscreen-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 180, 163, 0.9);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -354,6 +371,10 @@
         </footer>
     </div>
 
+    <div class="fullscreen-notification" id="fullscreenNotification">
+        Press F to toggle fullscreen
+    </div>
+
     <script>
         // Generate QR codes with error handling
         document.addEventListener('DOMContentLoaded', function() {
@@ -402,6 +423,54 @@
             
             window.addEventListener('resize', adjustLayout);
             adjustLayout();
+
+            // Fullscreen functionality
+            const fullscreenNotification = document.getElementById('fullscreenNotification');
+            let notificationTimeout;
+
+            function showNotification() {
+                clearTimeout(notificationTimeout);
+                fullscreenNotification.style.opacity = '1';
+                notificationTimeout = setTimeout(() => {
+                    fullscreenNotification.style.opacity = '0';
+                }, 2000);
+            }
+
+            function toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+                    });
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            // Show notification on first interaction
+            document.addEventListener('click', function firstInteraction() {
+                showNotification();
+                document.removeEventListener('click', firstInteraction);
+            }, { once: true });
+
+            // Toggle fullscreen on F key press
+            document.addEventListener('keydown', (e) => {
+                if (e.key.toLowerCase() === 'f') {
+                    toggleFullScreen();
+                    showNotification();
+                }
+            });
+
+            // Update notification text based on fullscreen state
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement) {
+                    fullscreenNotification.textContent = 'Press F to exit fullscreen';
+                } else {
+                    fullscreenNotification.textContent = 'Press F to toggle fullscreen';
+                }
+                showNotification();
+            });
         });
     </script>
 </body>
