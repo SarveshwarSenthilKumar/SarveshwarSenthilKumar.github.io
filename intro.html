@@ -108,6 +108,14 @@
             color: var(--light);
             opacity: 0.9;
             line-height: 1.5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .fullscreen .profile-description {
+            opacity: 0;
+            height: 0;
+            margin: 0;
+            overflow: hidden;
         }
         
         .links-section {
@@ -441,9 +449,11 @@
                     document.documentElement.requestFullscreen().catch(err => {
                         console.error(`Error attempting to enable fullscreen: ${err.message}`);
                     });
+                    document.body.classList.add('fullscreen');
                 } else {
                     if (document.exitFullscreen) {
                         document.exitFullscreen();
+                        document.body.classList.remove('fullscreen');
                     }
                 }
             }
@@ -466,8 +476,10 @@
             document.addEventListener('fullscreenchange', () => {
                 if (document.fullscreenElement) {
                     fullscreenNotification.textContent = 'Press F to exit fullscreen';
+                    document.body.classList.add('fullscreen');
                 } else {
                     fullscreenNotification.textContent = 'Press F to toggle fullscreen';
+                    document.body.classList.remove('fullscreen');
                 }
                 showNotification();
             });
