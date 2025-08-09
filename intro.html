@@ -43,6 +43,82 @@
             padding: 1.5rem;
             margin: 0 auto;
             max-width: 1200px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Fullscreen specific styles */
+        body:fullscreen .container,
+        body:-webkit-full-screen .container,
+        body:-moz-full-screen .container,
+        body:-ms-fullscreen .container {
+            max-width: 95vw;
+            padding: 2rem;
+        }
+        
+        body:fullscreen .profile-image,
+        body:-webkit-full-screen .profile-image,
+        body:-moz-full-screen .profile-image,
+        body:-ms-fullscreen .profile-image {
+            max-width: 380px;
+            margin-bottom: 2rem;
+        }
+        
+        body:fullscreen .qr-code-container,
+        body:-webkit-full-screen .qr-code-container,
+        body:-moz-full-screen .qr-code-container,
+        body:-ms-fullscreen .qr-code-container {
+            width: 160px;
+            height: 160px;
+        }
+        
+        body:fullscreen .qr-code,
+        body:-webkit-full-screen .qr-code,
+        body:-moz-full-screen .qr-code,
+        body:-ms-fullscreen .qr-code {
+            width: 150px;
+            height: 150px;
+        }
+        
+        body:fullscreen .profile-title,
+        body:-webkit-full-screen .profile-title,
+        body:-moz-full-screen .profile-title,
+        body:-ms-fullscreen .profile-title {
+            font-size: 2.5rem;
+        }
+        
+        body:fullscreen .profile-subtitle,
+        body:-webkit-full-screen .profile-subtitle,
+        body:-moz-full-screen .profile-subtitle,
+        body:-ms-fullscreen .profile-subtitle {
+            font-size: 1.3rem;
+        }
+        
+        body:fullscreen .qr-title,
+        body:-webkit-full-screen .qr-title,
+        body:-moz-full-screen .qr-title,
+        body:-ms-fullscreen .qr-title {
+            font-size: 1.2rem;
+        }
+        
+        body:fullscreen .qr-link,
+        body:-webkit-full-screen .qr-link,
+        body:-moz-full-screen .qr-link,
+        body:-ms-fullscreen .qr-link {
+            font-size: 0.85rem;
+        }
+        
+        body:fullscreen .contact-title,
+        body:-webkit-full-screen .contact-title,
+        body:-moz-full-screen .contact-title,
+        body:-ms-fullscreen .contact-title {
+            font-size: 1.4rem;
+        }
+        
+        body:fullscreen .contact-text,
+        body:-webkit-full-screen .contact-text,
+        body:-moz-full-screen .contact-text,
+        body:-ms-fullscreen .contact-text {
+            font-size: 1rem;
         }
         
         header {
@@ -61,7 +137,7 @@
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 2rem;
             flex-grow: 1;
             overflow: hidden;
             height: calc(100vh - 120px);
@@ -72,6 +148,7 @@
             flex-direction: column;
             justify-content: center;
             overflow: hidden;
+            padding-right: 1rem;
         }
         
         .profile-image-container {
@@ -86,6 +163,7 @@
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             margin-bottom: 1rem;
             border: 4px solid var(--primary);
+            transition: all 0.3s ease;
         }
         
         .profile-title {
@@ -93,6 +171,7 @@
             font-weight: 700;
             margin-bottom: 0.5rem;
             color: var(--primary);
+            transition: all 0.3s ease;
         }
         
         .profile-subtitle {
@@ -100,6 +179,7 @@
             font-weight: 500;
             margin-bottom: 0.8rem;
             color: var(--light);
+            transition: all 0.3s ease;
         }
         
         .profile-description {
@@ -108,10 +188,13 @@
             color: var(--light);
             opacity: 0.9;
             line-height: 1.5;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
         }
         
-        .fullscreen .profile-description {
+        body:fullscreen .profile-description,
+        body:-webkit-full-screen .profile-description,
+        body:-moz-full-screen .profile-description,
+        body:-ms-fullscreen .profile-description {
             opacity: 0;
             height: 0;
             margin: 0;
@@ -128,58 +211,64 @@
         .qr-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
         
         .qr-card {
             background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
-            border-radius: 8px;
-            padding: 0.8rem;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: all 0.3s ease;
         }
         
         .qr-code-container {
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 0.5rem;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 0.8rem;
             background: white;
-            padding: 5px;
-            border-radius: 4px;
+            padding: 8px;
+            border-radius: 6px;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: all 0.3s ease;
         }
         
         .qr-code {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
+            transition: all 0.3s ease;
         }
         
         .qr-title {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             margin-bottom: 0.3rem;
             color: var(--primary);
+            transition: all 0.3s ease;
         }
         
         .qr-link {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: var(--text-light);
             word-break: break-all;
             padding: 0 0.5rem;
             margin-bottom: 0.3rem;
+            transition: all 0.3s ease;
         }
         
         .contact-info {
             background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
-            border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1.2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
         
         .contact-title {
@@ -187,6 +276,7 @@
             font-weight: 700;
             margin-bottom: 0.8rem;
             color: var(--primary);
+            transition: all 0.3s ease;
         }
         
         .contact-item {
@@ -196,21 +286,23 @@
         }
         
         .contact-icon {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             background-color: var(--primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 0.6rem;
+            margin-right: 0.8rem;
             color: white;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             flex-shrink: 0;
+            transition: all 0.3s ease;
         }
         
         .contact-text {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
         
         .contact-link {
@@ -227,8 +319,8 @@
         footer {
             flex-shrink: 0;
             text-align: center;
-            padding: 0.5rem 0;
-            font-size: 0.75rem;
+            padding: 0.8rem 0;
+            font-size: 0.8rem;
             color: var(--text-light);
         }
         
@@ -289,6 +381,34 @@
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
+        }
+        
+        /* Fullscreen toggle button */
+        .fullscreen-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        
+        .fullscreen-toggle:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        .fullscreen-toggle i {
+            font-size: 1.2rem;
         }
     </style>
 </head>
@@ -383,6 +503,10 @@
         Press F to toggle fullscreen
     </div>
 
+    <div class="fullscreen-toggle" id="fullscreenToggle" title="Toggle Fullscreen">
+        <i class="fas fa-expand"></i>
+    </div>
+
     <script>
         // Generate QR codes with error handling
         document.addEventListener('DOMContentLoaded', function() {
@@ -390,8 +514,8 @@
                 try {
                     const canvas = document.getElementById(elementId);
                     QRCode.toCanvas(canvas, url, {
-                        width: 100,
-                        margin: 0,
+                        width: 120,
+                        margin: 1,
                         color: {
                             dark: '#000000',
                             light: '#ffffff'
@@ -434,6 +558,7 @@
 
             // Fullscreen functionality
             const fullscreenNotification = document.getElementById('fullscreenNotification');
+            const fullscreenToggle = document.getElementById('fullscreenToggle');
             let notificationTimeout;
 
             function showNotification() {
@@ -449,11 +574,11 @@
                     document.documentElement.requestFullscreen().catch(err => {
                         console.error(`Error attempting to enable fullscreen: ${err.message}`);
                     });
-                    document.body.classList.add('fullscreen');
+                    fullscreenToggle.innerHTML = '<i class="fas fa-compress"></i>';
                 } else {
                     if (document.exitFullscreen) {
                         document.exitFullscreen();
-                        document.body.classList.remove('fullscreen');
+                        fullscreenToggle.innerHTML = '<i class="fas fa-expand"></i>';
                     }
                 }
             }
@@ -464,7 +589,7 @@
                 document.removeEventListener('click', firstInteraction);
             }, { once: true });
 
-            // Toggle fullscreen on F key press
+            // Toggle fullscreen on F key press or button click
             document.addEventListener('keydown', (e) => {
                 if (e.key.toLowerCase() === 'f') {
                     toggleFullScreen();
@@ -472,16 +597,26 @@
                 }
             });
 
+            fullscreenToggle.addEventListener('click', () => {
+                toggleFullScreen();
+                showNotification();
+            });
+
             // Update notification text based on fullscreen state
             document.addEventListener('fullscreenchange', () => {
                 if (document.fullscreenElement) {
                     fullscreenNotification.textContent = 'Press F to exit fullscreen';
-                    document.body.classList.add('fullscreen');
+                    fullscreenToggle.innerHTML = '<i class="fas fa-compress"></i>';
                 } else {
                     fullscreenNotification.textContent = 'Press F to toggle fullscreen';
-                    document.body.classList.remove('fullscreen');
+                    fullscreenToggle.innerHTML = '<i class="fas fa-expand"></i>';
                 }
                 showNotification();
+            });
+
+            // Update fullscreen button icon when exiting via ESC
+            document.addEventListener('fullscreenerror', () => {
+                fullscreenToggle.innerHTML = '<i class="fas fa-expand"></i>';
             });
         });
     </script>
