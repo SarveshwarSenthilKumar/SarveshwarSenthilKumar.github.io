@@ -483,7 +483,7 @@
         .qr-input-field {
             width: 100%;
             padding: 1rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             border: 2px solid var(--primary);
             border-radius: 6px;
             background-color: rgba(255, 255, 255, 0.1);
@@ -497,10 +497,18 @@
             border-color: var(--accent);
         }
 
+        .qr-input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--light);
+        }
+
         .qr-input-buttons {
             display: flex;
             justify-content: space-between;
             gap: 1rem;
+            margin-top: 1rem;
         }
 
         .qr-input-button {
@@ -578,6 +586,29 @@
         }
 
         .custom-qr-notification.show {
+            opacity: 1;
+        }
+
+        /* Edit QR name button */
+        .qr-edit-button {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .qr-card-custom:hover .qr-edit-button {
             opacity: 1;
         }
     </style>
@@ -685,10 +716,28 @@
     <div class="qr-input-modal" id="qrInputModal">
         <div class="qr-input-container">
             <h3 class="qr-input-title">Create Custom QR Code</h3>
-            <input type="text" class="qr-input-field" id="qrInputField" placeholder="Enter URL or text..." autofocus>
+            
+            <label for="qrInputUrl" class="qr-input-label">URL:</label>
+            <input type="text" class="qr-input-field" id="qrInputUrl" placeholder="Enter URL..." autofocus>
+            
+            <label for="qrInputName" class="qr-input-label">Display Name:</label>
+            <input type="text" class="qr-input-field" id="qrInputName" placeholder="Enter display name (optional)">
+            
             <div class="qr-input-buttons">
                 <button class="qr-input-button cancel" id="qrInputCancel">Cancel</button>
                 <button class="qr-input-button generate" id="qrInputGenerate">Generate QR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Name Modal -->
+    <div class="qr-input-modal" id="editNameModal">
+        <div class="qr-input-container">
+            <h3 class="qr-input-title">Edit QR Code Name</h3>
+            <input type="text" class="qr-input-field" id="editNameField" placeholder="Enter new name...">
+            <div class="qr-input-buttons">
+                <button class="qr-input-button cancel" id="editNameCancel">Cancel</button>
+                <button class="qr-input-button generate" id="editNameSave">Save</button>
             </div>
         </div>
     </div>
@@ -699,14 +748,20 @@
             // Store custom QR codes in localStorage
             const STORAGE_KEY = 'customQRCodes';
             let customQRCodes = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            let currentlyEditingId = null;
             
             // DOM elements
             const qrGrid = document.getElementById('qrGrid');
             const qrInputModal = document.getElementById('qrInputModal');
-            const qrInputField = document.getElementById('qrInputField');
+            const qrInputUrl = document.getElementById('qrInputUrl');
+            const qrInputName = document.getElementById('qrInputName');
             const qrInputGenerate = document.getElementById('qrInputGenerate');
             const qrInputCancel = document.getElementById('qrInputCancel');
             const customQrNotification = document.getElementById('customQrNotification');
+            const editNameModal = document.getElementById('editNameModal');
+            const editNameField = document.getElementById('editNameField');
+            const editNameSave = document.getElementById('editNameSave');
+            const editNameCancel = document.getElementById('editNameCancel');
             const linksSection = document.querySelector('.links-section');
             
             function generateQRCode(elementId, url) {
@@ -739,33 +794,44 @@
             // Load custom QR codes from storage
             function loadCustomQRCodes() {
                 customQRCodes.forEach((qr, index) => {
-                    addCustomQRCard(qr.url, qr.title, `custom-qr-${index}`);
+                    addCustomQRCard(qr.url, qr.title, `custom-qr-${index}`, qr.elementId);
                 });
             }
             
             // Add a custom QR card to the grid
-            function addCustomQRCard(url, title = 'Custom Link', elementId = `custom-qr-${Date.now()}`) {
+            function addCustomQRCard(url, title = 'Custom Link', elementId = `custom-qr-${Date.now()}`, storedElementId = null) {
+                const finalElementId = storedElementId || elementId;
                 const qrCard = document.createElement('div');
                 qrCard.className = 'qr-card qr-card-custom animated';
                 qrCard.innerHTML = `
                     <div class="qr-code-container">
-                        <canvas id="${elementId}" class="qr-code"></canvas>
+                        <canvas id="${finalElementId}" class="qr-code"></canvas>
                     </div>
                     <h3 class="qr-title">${title}</h3>
                     <div class="qr-link">${url.length > 30 ? url.substring(0, 30) + '...' : url}</div>
-                    <div class="qr-delete-button" data-id="${elementId}">
+                    <div class="qr-delete-button" data-id="${finalElementId}">
                         <i class="fas fa-times"></i>
+                    </div>
+                    <div class="qr-edit-button" data-id="${finalElementId}">
+                        <i class="fas fa-pencil-alt"></i>
                     </div>
                 `;
                 
                 qrGrid.appendChild(qrCard);
-                generateQRCode(elementId, url);
+                generateQRCode(finalElementId, url);
                 
                 // Add delete functionality
                 const deleteBtn = qrCard.querySelector('.qr-delete-button');
                 deleteBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    deleteCustomQRCard(elementId);
+                    deleteCustomQRCard(finalElementId);
+                });
+                
+                // Add edit functionality
+                const editBtn = qrCard.querySelector('.qr-edit-button');
+                editBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showEditNameModal(finalElementId, title);
                 });
                 
                 // Make QR card clickable
@@ -781,6 +847,50 @@
                 
                 // Update grid layout
                 updateQrGridLayout();
+                
+                return finalElementId;
+            }
+            
+            // Show edit name modal
+            function showEditNameModal(elementId, currentName) {
+                currentlyEditingId = elementId;
+                editNameField.value = currentName;
+                editNameModal.classList.add('active');
+                editNameField.focus();
+            }
+            
+            // Hide edit name modal
+            function hideEditNameModal() {
+                editNameModal.classList.remove('active');
+                editNameField.value = '';
+                currentlyEditingId = null;
+            }
+            
+            // Save edited name
+            function saveEditedName() {
+                const newName = editNameField.value.trim();
+                if (!newName) {
+                    alert('Please enter a valid name');
+                    return;
+                }
+                
+                if (!currentlyEditingId) return;
+                
+                // Update in DOM
+                const titleElement = document.querySelector(`#${currentlyEditingId}`).closest('.qr-card').querySelector('.qr-title');
+                titleElement.textContent = newName;
+                
+                // Update in storage
+                customQRCodes = customQRCodes.map(qr => {
+                    if (qr.elementId === currentlyEditingId) {
+                        return {...qr, title: newName};
+                    }
+                    return qr;
+                });
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(customQRCodes));
+                
+                hideEditNameModal();
+                showCustomNotification('Name updated successfully!');
             }
             
             // Delete a custom QR card
@@ -798,6 +908,17 @@
                 // Remove from storage
                 customQRCodes = customQRCodes.filter(qr => qr.elementId !== elementId);
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(customQRCodes));
+                
+                showCustomNotification('QR code removed');
+            }
+            
+            // Show custom notification
+            function showCustomNotification(message) {
+                customQrNotification.textContent = message;
+                customQrNotification.classList.add('show');
+                setTimeout(() => {
+                    customQrNotification.classList.remove('show');
+                }, 3000);
             }
             
             // Update QR grid layout to ensure everything fits
@@ -807,12 +928,12 @@
                 const qrCount = qrCards.length;
                 
                 // Calculate optimal size based on number of QR codes
-                let qrSize = 120;
+                let qrSize = 110;
                 let containerSize = 120;
                 
                 if (qrCount > 4) {
                     // For more than 4 QR codes, make them smaller
-                    qrSize = 100;
+                    qrSize = 90;
                     containerSize = 100;
                     
                     // Adjust font sizes for smaller cards
@@ -850,21 +971,23 @@
             // Show QR input modal
             function showQRInputModal() {
                 qrInputModal.classList.add('active');
-                qrInputField.focus();
+                qrInputUrl.focus();
             }
             
             // Hide QR input modal
             function hideQRInputModal() {
                 qrInputModal.classList.remove('active');
-                qrInputField.value = '';
+                qrInputUrl.value = '';
+                qrInputName.value = '';
             }
             
             // Generate custom QR code
             function generateCustomQRCode() {
-                const url = qrInputField.value.trim();
+                const url = qrInputUrl.value.trim();
+                const name = qrInputName.value.trim() || 'Custom Link';
                 
                 if (!url) {
-                    alert('Please enter a valid URL or text');
+                    alert('Please enter a valid URL');
                     return;
                 }
                 
@@ -882,20 +1005,16 @@
                 }
                 
                 const elementId = `custom-qr-${Date.now()}`;
-                const title = 'Custom Link';
                 
                 // Add to storage
-                customQRCodes.push({ url: validUrl, title, elementId });
+                customQRCodes.push({ url: validUrl, title: name, elementId });
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(customQRCodes));
                 
                 // Add to DOM
-                addCustomQRCard(validUrl, title, elementId);
+                addCustomQRCard(validUrl, name, elementId);
                 
                 // Show notification
-                customQrNotification.classList.add('show');
-                setTimeout(() => {
-                    customQrNotification.classList.remove('show');
-                }, 3000);
+                showCustomNotification('Custom QR code added successfully!');
                 
                 hideQRInputModal();
             }
@@ -903,9 +1022,11 @@
             // Event listeners
             qrInputGenerate.addEventListener('click', generateCustomQRCode);
             qrInputCancel.addEventListener('click', hideQRInputModal);
+            editNameSave.addEventListener('click', saveEditedName);
+            editNameCancel.addEventListener('click', hideEditNameModal);
             
-            // Handle Enter/Escape keys in modal
-            qrInputField.addEventListener('keydown', function(e) {
+            // Handle Enter/Escape keys in modals
+            qrInputUrl.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     generateCustomQRCode();
                 } else if (e.key === 'Escape') {
@@ -913,10 +1034,24 @@
                 }
             });
             
-            // Close modal when clicking outside
+            editNameField.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    saveEditedName();
+                } else if (e.key === 'Escape') {
+                    hideEditNameModal();
+                }
+            });
+            
+            // Close modals when clicking outside
             qrInputModal.addEventListener('click', function(e) {
                 if (e.target === qrInputModal) {
                     hideQRInputModal();
+                }
+            });
+            
+            editNameModal.addEventListener('click', function(e) {
+                if (e.target === editNameModal) {
+                    hideEditNameModal();
                 }
             });
             
