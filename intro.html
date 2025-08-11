@@ -164,15 +164,31 @@
         .links-section {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            overflow: hidden;
+            justify-content: flex-start;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        
+        .links-section::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .links-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        
+        .links-section::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
         }
         
         .qr-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 1rem;
             margin-bottom: 1.5rem;
+            width: 100%;
         }
         
         .qr-card {
@@ -229,6 +245,7 @@
             border-radius: 10px;
             padding: 1rem;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            margin-top: auto;
         }
         
         .contact-title {
@@ -330,6 +347,10 @@
             .profile-description {
                 text-align: center;
             }
+            
+            .qr-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
         }
         
         @media (max-width: 480px) {
@@ -346,12 +367,12 @@
                 width: 90%;
             }
             
-            .qr-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .profile-title {
                 font-size: 1.6rem;
+            }
+            
+            .qr-grid {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -686,6 +707,7 @@
             const qrInputGenerate = document.getElementById('qrInputGenerate');
             const qrInputCancel = document.getElementById('qrInputCancel');
             const customQrNotification = document.getElementById('customQrNotification');
+            const linksSection = document.querySelector('.links-section');
             
             function generateQRCode(elementId, url) {
                 try {
@@ -756,6 +778,9 @@
                     qrCard.style.opacity = '1';
                     qrCard.style.transform = 'translateY(0)';
                 }, 10);
+                
+                // Update grid layout
+                updateQrGridLayout();
             }
             
             // Delete a custom QR card
@@ -764,11 +789,62 @@
                 const card = document.querySelector(`#${elementId}`).closest('.qr-card');
                 card.style.transform = 'scale(0.9)';
                 card.style.opacity = '0';
-                setTimeout(() => card.remove(), 300);
+                setTimeout(() => {
+                    card.remove();
+                    // Update grid layout after removal
+                    updateQrGridLayout();
+                }, 300);
                 
                 // Remove from storage
                 customQRCodes = customQRCodes.filter(qr => qr.elementId !== elementId);
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(customQRCodes));
+            }
+            
+            // Update QR grid layout to ensure everything fits
+            function updateQrGridLayout() {
+                // Adjust QR code sizes based on number of items
+                const qrCards = document.querySelectorAll('.qr-card');
+                const qrCount = qrCards.length;
+                
+                // Calculate optimal size based on number of QR codes
+                let qrSize = 120;
+                let containerSize = 120;
+                
+                if (qrCount > 4) {
+                    // For more than 4 QR codes, make them smaller
+                    qrSize = 100;
+                    containerSize = 100;
+                    
+                    // Adjust font sizes for smaller cards
+                    document.querySelectorAll('.qr-title').forEach(el => {
+                        el.style.fontSize = '0.85rem';
+                    });
+                    document.querySelectorAll('.qr-link').forEach(el => {
+                        el.style.fontSize = '0.65rem';
+                    });
+                } else {
+                    // Reset to default sizes
+                    document.querySelectorAll('.qr-title').forEach(el => {
+                        el.style.fontSize = '0.95rem';
+                    });
+                    document.querySelectorAll('.qr-link').forEach(el => {
+                        el.style.fontSize = '0.75rem';
+                    });
+                }
+                
+                // Apply the sizes
+                document.querySelectorAll('.qr-code-container').forEach(el => {
+                    el.style.width = `${containerSize}px`;
+                    el.style.height = `${containerSize}px`;
+                });
+                
+                document.querySelectorAll('.qr-code').forEach(el => {
+                    el.style.width = `${qrSize}px`;
+                    el.style.height = `${qrSize}px`;
+                });
+                
+                // Ensure the links section is scrollable if content overflows
+                linksSection.style.overflowY = qrCount > 4 ? 'auto' : 'hidden';
             }
             
             // Show QR input modal
@@ -847,11 +923,8 @@
             // Load any existing custom QR codes
             loadCustomQRCodes();
             
-            // Prevent scrolling
-            document.body.style.overflow = 'hidden';
-            window.addEventListener('scroll', function(e) {
-                window.scrollTo(0, 0);
-            });
+            // Initial layout update
+            updateQrGridLayout();
             
             // Fullscreen functionality
             const fullscreenNotification = document.getElementById('fullscreenNotification');
@@ -912,11 +985,19 @@
                     fullscreenToggle.innerHTML = '<i class="fas fa-expand"></i>';
                 }
                 showNotification();
+                
+                // Update layout when entering/exiting fullscreen
+                updateQrGridLayout();
             });
 
             // Update fullscreen button icon when exiting via ESC
             document.addEventListener('fullscreenerror', () => {
                 fullscreenToggle.innerHTML = '<i class="fas fa-expand"></i>';
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                updateQrGridLayout();
             });
         });
     </script>
