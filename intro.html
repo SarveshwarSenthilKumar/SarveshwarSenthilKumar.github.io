@@ -184,6 +184,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .qr-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
         }
         
         .qr-code-container {
@@ -408,6 +414,151 @@
         .fullscreen-toggle i {
             font-size: 1.2rem;
         }
+
+        /* QR Input Modal */
+        .qr-input-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .qr-input-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .qr-input-container {
+            background-color: var(--dark);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .qr-input-modal.active .qr-input-container {
+            transform: translateY(0);
+        }
+
+        .qr-input-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .qr-input-field {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .qr-input-field:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .qr-input-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .qr-input-button {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .qr-input-button.generate {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .qr-input-button.generate:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .qr-input-button.cancel {
+            background-color: transparent;
+            border: 2px solid var(--text-light);
+            color: var(--text-light);
+        }
+
+        .qr-input-button.cancel:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Custom QR card delete button */
+        .qr-card-custom {
+            position: relative;
+        }
+
+        .qr-delete-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .qr-card-custom:hover .qr-delete-button {
+            opacity: 1;
+        }
+
+        /* Custom QR notification */
+        .custom-qr-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .custom-qr-notification.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -426,12 +577,12 @@
                 <h2 class="profile-subtitle animated delay-1">Developer | Chess Enthusiast | Community Builder</h2>
                 
                 <p class="profile-description animated delay-2">
-                    I’m a software developer with a passion for creating practical, impactful tools. My work spans full-stack development, AI integration, and collaborative projects that solve real-world problems. I’ve led and contributed to initiatives in education, productivity, and civic engagement, and I’m always eager to learn, experiment, and build. Outside of tech, I’m an active chess competitor and organizer, using the game to connect with and inspire others.
+                    I'm a software developer with a passion for creating practical, impactful tools. My work spans full-stack development, AI integration, and collaborative projects that solve real-world problems. I've led and contributed to initiatives in education, productivity, and civic engagement, and I'm always eager to learn, experiment, and build. Outside of tech, I'm an active chess competitor and organizer, using the game to connect with and inspire others.
                 </p>
             </section>
             
             <section class="links-section">
-                <div class="qr-grid">
+                <div class="qr-grid" id="qrGrid">
                     <div class="qr-card animated delay-1">
                         <div class="qr-code-container">
                             <canvas id="qr-github" class="qr-code"></canvas>
@@ -490,21 +641,52 @@
         </main>
         
         <footer class="animated delay-4">
-            © 2025 Sarveshwar Senthil Kumar
+            © 2025 Sarveshwar Senthil Kumar | Press 'i' to add custom QR code
         </footer>
     </div>
 
+    <!-- Fullscreen notification -->
     <div class="fullscreen-notification" id="fullscreenNotification">
         Press F to toggle fullscreen
     </div>
 
+    <!-- Custom QR notification -->
+    <div class="custom-qr-notification" id="customQrNotification">
+        Custom QR code added successfully!
+    </div>
+
+    <!-- Fullscreen toggle button -->
     <div class="fullscreen-toggle" id="fullscreenToggle" title="Toggle Fullscreen">
         <i class="fas fa-expand"></i>
+    </div>
+
+    <!-- QR Input Modal -->
+    <div class="qr-input-modal" id="qrInputModal">
+        <div class="qr-input-container">
+            <h3 class="qr-input-title">Create Custom QR Code</h3>
+            <input type="text" class="qr-input-field" id="qrInputField" placeholder="Enter URL or text..." autofocus>
+            <div class="qr-input-buttons">
+                <button class="qr-input-button cancel" id="qrInputCancel">Cancel</button>
+                <button class="qr-input-button generate" id="qrInputGenerate">Generate QR</button>
+            </div>
+        </div>
     </div>
 
     <script>
         // Generate QR codes with error handling
         document.addEventListener('DOMContentLoaded', function() {
+            // Store custom QR codes in localStorage
+            const STORAGE_KEY = 'customQRCodes';
+            let customQRCodes = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            
+            // DOM elements
+            const qrGrid = document.getElementById('qrGrid');
+            const qrInputModal = document.getElementById('qrInputModal');
+            const qrInputField = document.getElementById('qrInputField');
+            const qrInputGenerate = document.getElementById('qrInputGenerate');
+            const qrInputCancel = document.getElementById('qrInputCancel');
+            const customQrNotification = document.getElementById('customQrNotification');
+            
             function generateQRCode(elementId, url) {
                 try {
                     const canvas = document.getElementById(elementId);
@@ -526,11 +708,144 @@
                 }
             }
 
-            // Generate all QR codes
+            // Generate all initial QR codes
             generateQRCode('qr-github', 'https://github.com/SarveshwarSenthilKumar');
             generateQRCode('qr-linkedin', 'https://www.linkedin.com/in/sarveshwarsenthilkumar/');
             generateQRCode('qr-resume', 'https://sarveshwarsenthilkumar.github.io#resume');
             generateQRCode('qr-portfolio', 'https://sarveshwarsenthilkumar.github.io');
+            
+            // Load custom QR codes from storage
+            function loadCustomQRCodes() {
+                customQRCodes.forEach((qr, index) => {
+                    addCustomQRCard(qr.url, qr.title, `custom-qr-${index}`);
+                });
+            }
+            
+            // Add a custom QR card to the grid
+            function addCustomQRCard(url, title = 'Custom Link', elementId = `custom-qr-${Date.now()}`) {
+                const qrCard = document.createElement('div');
+                qrCard.className = 'qr-card qr-card-custom animated';
+                qrCard.innerHTML = `
+                    <div class="qr-code-container">
+                        <canvas id="${elementId}" class="qr-code"></canvas>
+                    </div>
+                    <h3 class="qr-title">${title}</h3>
+                    <div class="qr-link">${url.length > 30 ? url.substring(0, 30) + '...' : url}</div>
+                    <div class="qr-delete-button" data-id="${elementId}">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+                
+                qrGrid.appendChild(qrCard);
+                generateQRCode(elementId, url);
+                
+                // Add delete functionality
+                const deleteBtn = qrCard.querySelector('.qr-delete-button');
+                deleteBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    deleteCustomQRCard(elementId);
+                });
+                
+                // Make QR card clickable
+                qrCard.addEventListener('click', function() {
+                    window.open(url, '_blank');
+                });
+                
+                // Animate the new card
+                setTimeout(() => {
+                    qrCard.style.opacity = '1';
+                    qrCard.style.transform = 'translateY(0)';
+                }, 10);
+            }
+            
+            // Delete a custom QR card
+            function deleteCustomQRCard(elementId) {
+                // Remove from DOM
+                const card = document.querySelector(`#${elementId}`).closest('.qr-card');
+                card.style.transform = 'scale(0.9)';
+                card.style.opacity = '0';
+                setTimeout(() => card.remove(), 300);
+                
+                // Remove from storage
+                customQRCodes = customQRCodes.filter(qr => qr.elementId !== elementId);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(customQRCodes));
+            }
+            
+            // Show QR input modal
+            function showQRInputModal() {
+                qrInputModal.classList.add('active');
+                qrInputField.focus();
+            }
+            
+            // Hide QR input modal
+            function hideQRInputModal() {
+                qrInputModal.classList.remove('active');
+                qrInputField.value = '';
+            }
+            
+            // Generate custom QR code
+            function generateCustomQRCode() {
+                const url = qrInputField.value.trim();
+                
+                if (!url) {
+                    alert('Please enter a valid URL or text');
+                    return;
+                }
+                
+                // Validate URL format
+                let validUrl = url;
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    validUrl = `http://${url}`;
+                }
+                
+                try {
+                    new URL(validUrl);
+                } catch (e) {
+                    alert('Please enter a valid URL');
+                    return;
+                }
+                
+                const elementId = `custom-qr-${Date.now()}`;
+                const title = 'Custom Link';
+                
+                // Add to storage
+                customQRCodes.push({ url: validUrl, title, elementId });
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(customQRCodes));
+                
+                // Add to DOM
+                addCustomQRCard(validUrl, title, elementId);
+                
+                // Show notification
+                customQrNotification.classList.add('show');
+                setTimeout(() => {
+                    customQrNotification.classList.remove('show');
+                }, 3000);
+                
+                hideQRInputModal();
+            }
+            
+            // Event listeners
+            qrInputGenerate.addEventListener('click', generateCustomQRCode);
+            qrInputCancel.addEventListener('click', hideQRInputModal);
+            
+            // Handle Enter/Escape keys in modal
+            qrInputField.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    generateCustomQRCode();
+                } else if (e.key === 'Escape') {
+                    hideQRInputModal();
+                }
+            });
+            
+            // Close modal when clicking outside
+            qrInputModal.addEventListener('click', function(e) {
+                if (e.target === qrInputModal) {
+                    hideQRInputModal();
+                }
+            });
+            
+            // Load any existing custom QR codes
+            loadCustomQRCodes();
             
             // Prevent scrolling
             document.body.style.overflow = 'hidden';
@@ -576,6 +891,9 @@
                 if (e.key.toLowerCase() === 'f') {
                     toggleFullScreen();
                     showNotification();
+                } else if (e.key.toLowerCase() === 'i') {
+                    // Show QR input modal when 'i' is pressed
+                    showQRInputModal();
                 }
             });
 
