@@ -1,6 +1,6 @@
 # Sarveshwar Senthil Kumar - Portfolio Website
 
-Welcome to my personal portfolio website, a comprehensive showcase of my journey as a Full-Stack Software Engineer, Chess Enthusiast, and Tech Innovator. This single-page application highlights my professional experience, technical projects, and achievements in an interactive and engaging format.
+Welcome to my personal portfolio website, a comprehensive showcase of my journey as a Full-Stack Software Engineer, Chess Enthusiast, Hackathon Participant, and Tech Innovator. This single-page application highlights my professional experience, technical projects, and achievements in an interactive and engaging format.
 
 ## ✨ Key Features
 
