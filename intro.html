@@ -32,14 +32,13 @@
             line-height: 1.6;
             height: 100%;
             width: 100%;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         
         .container {
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            max-height: 100vh;
+            min-height: 100vh;
             padding: 1rem;
             margin: 0 auto;
             max-width: 1200px;
@@ -104,15 +103,13 @@
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
             flex-grow: 1;
-            overflow: hidden;
-            height: calc(100vh - 100px);
+            min-height: calc(100vh - 120px);
         }
         
         .profile-section {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            overflow: hidden;
             padding-right: 1rem;
         }
         
@@ -165,7 +162,6 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            overflow-y: auto;
             padding-right: 0.5rem;
         }
         
@@ -185,7 +181,7 @@
         
         .qr-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 1rem;
             margin-bottom: 1.5rem;
             width: 100%;
@@ -302,8 +298,8 @@
         /* Responsive adjustments */
         @media (max-width: 992px) {
             .profile-image-container {
-                height: 40vh;
-                min-height: 280px;
+                height: 35vh;
+                min-height: 250px;
             }
             
             .profile-image {
@@ -313,18 +309,19 @@
         
         @media (max-width: 768px) {
             .container {
-                padding: 1rem;
+                padding: 0.8rem;
             }
             
             .main-content {
                 grid-template-columns: 1fr;
-                height: auto;
-                min-height: calc(100vh - 100px);
+                gap: 1rem;
+                min-height: auto;
             }
             
             .profile-section {
                 padding-right: 0;
                 order: 1;
+                margin-bottom: 1rem;
             }
             
             .links-section {
@@ -333,47 +330,172 @@
             }
             
             .profile-image-container {
-                height: 35vh;
-                min-height: 250px;
+                height: 30vh;
+                min-height: 200px;
                 justify-content: center;
             }
             
             .profile-image {
-                width: 80%;
-                max-width: 350px;
+                width: 70%;
+                max-width: 280px;
             }
             
-            .profile-title,
-            .profile-subtitle,
+            .profile-title {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+            
+            .profile-subtitle {
+                font-size: 1rem;
+                text-align: center;
+            }
+            
             .profile-description {
+                font-size: 0.9rem;
                 text-align: center;
             }
             
             .qr-grid {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+            
+            .qr-card {
+                padding: 0.6rem;
+            }
+            
+            .qr-code-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .qr-code {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .qr-title {
+                font-size: 0.85rem;
+            }
+            
+            .qr-link {
+                font-size: 0.65rem;
+            }
+            
+            .contact-info {
+                padding: 0.8rem;
+            }
+            
+            .contact-item {
+                margin-bottom: 0.5rem;
+            }
+            
+            .contact-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+            
+            .contact-text {
+                font-size: 0.85rem;
+            }
+            
+            .fullscreen-toggle {
+                bottom: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
             }
         }
         
         @media (max-width: 480px) {
             .container {
-                padding: 0.8rem;
+                padding: 0.6rem;
+            }
+            
+            header {
+                padding: 0.3rem 0;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
             }
             
             .profile-image-container {
-                height: 30vh;
-                min-height: 220px;
+                height: 25vh;
+                min-height: 180px;
             }
             
             .profile-image {
-                width: 90%;
+                width: 75%;
+                max-width: 240px;
             }
             
             .profile-title {
-                font-size: 1.6rem;
+                font-size: 1.3rem;
+            }
+            
+            .profile-subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .profile-description {
+                font-size: 0.85rem;
             }
             
             .qr-grid {
                 grid-template-columns: 1fr;
+                gap: 0.6rem;
+            }
+            
+            .qr-card {
+                padding: 0.5rem;
+            }
+            
+            .qr-code-container {
+                width: 110px;
+                height: 110px;
+            }
+            
+            .qr-code {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .qr-title {
+                font-size: 0.9rem;
+            }
+            
+            .qr-link {
+                font-size: 0.7rem;
+            }
+            
+            .contact-info {
+                padding: 0.6rem;
+            }
+            
+            .contact-title {
+                font-size: 1rem;
+            }
+            
+            .contact-text {
+                font-size: 0.8rem;
+            }
+            
+            footer {
+                font-size: 0.7rem;
+                padding: 0.6rem 0;
+            }
+            
+            .fullscreen-toggle {
+                bottom: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .fullscreen-toggle i {
+                font-size: 1rem;
             }
         }
         
