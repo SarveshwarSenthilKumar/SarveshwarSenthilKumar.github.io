@@ -30,7 +30,8 @@
             background-color: var(--dark);
             color: var(--light);
             line-height: 1.6;
-            height: 100%;
+            height: auto;
+            min-height: 100%;
             width: 100%;
             overflow-x: hidden;
         }
@@ -42,6 +43,7 @@
             padding: 1rem;
             margin: 0 auto;
             max-width: 1200px;
+            height: auto;
         }
         
         /* Fullscreen specific styles */
@@ -103,7 +105,8 @@
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
             flex-grow: 1;
-            min-height: calc(100vh - 120px);
+            min-height: auto;
+            height: auto;
         }
         
         .profile-section {
@@ -308,13 +311,21 @@
         }
         
         @media (max-width: 768px) {
+            html, body {
+                height: auto;
+                overflow-y: auto;
+            }
+            
             .container {
                 padding: 0.8rem;
+                height: auto;
+                min-height: auto;
             }
             
             .main-content {
                 grid-template-columns: 1fr;
                 gap: 1rem;
+                height: auto;
                 min-height: auto;
             }
             
@@ -409,8 +420,15 @@
         }
         
         @media (max-width: 480px) {
+            html, body {
+                height: auto;
+                overflow-y: auto;
+            }
+            
             .container {
                 padding: 0.6rem;
+                height: auto;
+                min-height: auto;
             }
             
             header {
